@@ -23,15 +23,3 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
-/**
- * Hook to inject JavaScript on all pages (we'll check page type in JS)
- */
-function local_quizstatsort_before_standard_html_head() {
-    global $PAGE;
-    
-    // Inject our JavaScript module on quiz report pages.
-    if (strpos($PAGE->pagetype, 'mod-quiz-report') !== false) {
-        $PAGE->requires->js_call_amd('local_quizstatsort/sort_statistics', 'init');
-    }
-}

@@ -15,16 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for local_quizstatsort
+ * Hook callbacks for local_quizstatsort
  *
  * @package    local_quizstatsort
  * @copyright  2025 Brian A. Pool
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace local_quizstatsort\hook_callbacks;
 
-$string['pluginname'] = 'Quiz Statistics Sort';
-$string['privacy:metadata'] = 'The Quiz Statistics Sort plugin does not store any personal data. It only provides client-side sorting functionality for the quiz statistics display.';
-$string['facilityindex'] = 'Facility index';
-$string['sorttooltip'] = 'Click to cycle sort: Ascending → Descending → Unsorted';
+/**
+ * Hook callbacks for output
+ */
+class output_callbacks {
+    /**
+     * Inject JavaScript on quiz report pages
+     *
+     * @param \core\hook\output\before_standard_head_html_generation $hook
+     */
+    public static function before_standard_head_html_generation(\core\hook\output\before_standard_head_html_generation $hook): void {
+        global $PAGE;
+
+        // Inject our JavaScript module on quiz report pages.
+        if (strpos($PAGE->pagetype, 'mod-quiz-report') !== false) {
+            $PAGE->requires->js_call_amd('local_quizstatsort/sort_statistics', 'init');
+        }
+    }
+}

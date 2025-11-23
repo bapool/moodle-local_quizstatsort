@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for local_quizstatsort
+ * Hook configuration for local_quizstatsort
  *
  * @package    local_quizstatsort
  * @copyright  2025 Brian A. Pool
@@ -24,7 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Quiz Statistics Sort';
-$string['privacy:metadata'] = 'The Quiz Statistics Sort plugin does not store any personal data. It only provides client-side sorting functionality for the quiz statistics display.';
-$string['facilityindex'] = 'Facility index';
-$string['sorttooltip'] = 'Click to cycle sort: Ascending → Descending → Unsorted';
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_standard_head_html_generation::class,
+        'callback' => \local_quizstatsort\hook_callbacks\output_callbacks::class . '::before_standard_head_html_generation',
+    ],
+];
